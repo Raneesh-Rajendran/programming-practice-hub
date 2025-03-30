@@ -6,10 +6,10 @@ import static java.util.stream.Collectors.toMap;
 import java.util.*;
 import main.java.models.Employee;
 
-public class JavaFeaturesTest {
+public class JavaFeatures {
 
   public static void main(String[] args) {
-    JavaFeaturesTest test = new JavaFeaturesTest();
+    JavaFeatures test = new JavaFeatures();
     Moveable move = test.new MovableImplementation();
     StreamsImplementation stream = test.new StreamsImplementation();
     move.move();

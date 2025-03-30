@@ -1,7 +1,5 @@
 package main.java.workouts;
 
-import static main.java.oop_basics.PredicatesClass.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +8,26 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import main.java.models.Employee;
 
-public class PredicateTest {
+public class LearnPredicate {
+
+  static class PredicatesClass {
+    public static Predicate<Employee> isAdultMale() {
+      return p -> p.getAge() > 21 && p.getGender().equalsIgnoreCase("M");
+    }
+
+    public static Predicate<Employee> isAdultFemale() {
+      return p -> p.getAge() > 18 && p.getGender().equalsIgnoreCase("F");
+    }
+
+    public static Predicate<Employee> isAgeMoreThan(Integer age) {
+      return p -> p.getAge() > age;
+    }
+
+    public static List<Employee> filterEmployees(
+        List<Employee> employees, Predicate<Employee> predicate) {
+      return employees.stream().filter(predicate).collect(Collectors.<Employee>toList());
+    }
+  }
 
   public static void main(String[] args) {
 
@@ -41,14 +58,16 @@ public class PredicateTest {
     List<Employee> employees = new ArrayList<Employee>();
     employees.addAll(Arrays.asList(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10));
 
-    System.out.println(filterEmployees(employees, isAdultMale()));
+    System.out.println(PredicatesClass.filterEmployees(employees, PredicatesClass.isAdultMale()));
 
-    System.out.println(filterEmployees(employees, isAdultFemale()));
+    System.out.println(PredicatesClass.filterEmployees(employees, PredicatesClass.isAdultFemale()));
 
-    System.out.println(filterEmployees(employees, isAgeMoreThan(35)));
+    System.out.println(
+        PredicatesClass.filterEmployees(employees, PredicatesClass.isAgeMoreThan(35)));
 
     // Employees other than above collection of "isAgeMoreThan(35)"
     // can be get using negate()
-    System.out.println(filterEmployees(employees, isAgeMoreThan(35).negate()));
+    System.out.println(
+        PredicatesClass.filterEmployees(employees, PredicatesClass.isAgeMoreThan(35).negate()));
   }
 }

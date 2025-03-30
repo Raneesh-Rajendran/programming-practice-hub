@@ -2,7 +2,7 @@ package main.java.workouts;
 
 import java.util.*;
 
-public class ConcurrentExceptionTest {
+public class ConcurrentException {
 
   public static void main(String[] args) {
 

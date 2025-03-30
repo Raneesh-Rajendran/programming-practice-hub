@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import main.java.models.Employee;
 
-public class StreamsAPITest {
+public class LearnStreams {
 
   public static void main(String[] args) {
 

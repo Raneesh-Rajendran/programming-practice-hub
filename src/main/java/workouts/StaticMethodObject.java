@@ -1,13 +1,13 @@
 package main.java.workouts;
 
-public class StaticMethodObjectTest {
+public class StaticMethodObject {
 
   public static void test() {
     System.out.println("Hello");
   }
 
   public static void main(String[] args) {
-    StaticMethodObjectTest obj = null;
+    StaticMethodObject obj = null;
     test();
   }
 }

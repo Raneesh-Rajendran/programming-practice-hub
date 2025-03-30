@@ -2,7 +2,7 @@ package main.java.workouts;
 
 import java.io.*;
 
-class TrasientTest implements Serializable {
+class LearnTransient implements Serializable {
   // Use of transient has no impact here
   static int l = 40;
   final transient int m = 50;
@@ -12,7 +12,7 @@ class TrasientTest implements Serializable {
   transient int k = 30;
 
   public static void main(String[] args) throws Exception {
-    TrasientTest input = new TrasientTest();
+    LearnTransient input = new LearnTransient();
 
     // serialization
     FileOutputStream fos = new FileOutputStream("abc.txt");
@@ -22,7 +22,7 @@ class TrasientTest implements Serializable {
     // de-serialization
     FileInputStream fis = new FileInputStream("abc.txt");
     ObjectInputStream ois = new ObjectInputStream(fis);
-    TrasientTest output = (TrasientTest) ois.readObject();
+    LearnTransient output = (LearnTransient) ois.readObject();
     System.out.println("i = " + output.i);
     System.out.println("j = " + output.j);
     System.out.println("k = " + output.k);

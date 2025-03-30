@@ -2,7 +2,7 @@ package main.java.workouts;
 
 import java.util.*;
 
-public class HashCollectionTest {
+public class HashCollection {
   public static void main(String[] args) {
     Set<Integer> hashSet = new TreeSet<Integer>();
     // Populating the HashSet
@@ -23,7 +23,7 @@ public class HashCollectionTest {
 
     // Initialization of a Hashtable
     // using Generics
-    Hashtable<Integer, String> ht2 = new Hashtable<Integer, String>();
+    Hashtable<Integer, String> ht2 = new Hashtable<>();
 
     // Inserting the Elements
     // using put() method
@@ -39,7 +39,7 @@ public class HashCollectionTest {
     System.out.println("Mappings of ht1 : " + ht1);
     System.out.println("Mappings of ht2 : " + ht2);
 
-    PriorityQueue<Integer> pQueue = new PriorityQueue<>(Collections.reverseOrder());
+    Queue<Integer> pQueue = new PriorityQueue<>(Collections.reverseOrder());
 
     // Adding items to the pQueue using add()
     pQueue.add(10);
