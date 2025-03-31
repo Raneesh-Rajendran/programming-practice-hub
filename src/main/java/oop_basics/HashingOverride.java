@@ -36,6 +36,6 @@ public class HashingOverride {
 
     Map<Person, String> map = new HashMap<>();
     map.put(new Person("John", 30), "Developer");
-    System.out.println(map.get(new Person("John", 30)));
+    System.out.println(map.get(new Person("John", 30))); // null, unless overridden
   }
 }
