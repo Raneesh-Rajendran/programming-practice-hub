@@ -32,7 +32,7 @@ public class CombinationsSum {
 
       list.add(candidates[i]);
       backtracking(candidates, i + 1, remaining - candidates[i], result, list);
-//      list.removeLast();
+      list.removeLast();
     }
   }
 }
