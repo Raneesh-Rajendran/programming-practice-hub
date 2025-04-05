@@ -4,10 +4,10 @@ import java.time.Duration;
 
 public class CircuitBreaker {
 
-  private CircuitBreakerState state = new ClosedState();
   private final int failureThreshold;
   private final int successThreshold;
   private final Duration openStateTimeout;
+  private CircuitBreakerState state = new ClosedState();
 
   public CircuitBreaker(int failureThreshold, int successThreshold, Duration openStateTimeout) {
     this.failureThreshold = failureThreshold;
@@ -16,7 +16,7 @@ public class CircuitBreaker {
   }
 
   public boolean allowRequest() {
-//  Logic is here bcz this is on request basis
+    //  Logic is here bcz context takes the responsibility of time based switching
     if (state instanceof OpenState openState && openState.allow()) {
       setState(new HalfOpenState());
     }
@@ -39,11 +39,6 @@ public class CircuitBreaker {
     }
   }
 
-  public void setState(CircuitBreakerState newState) {
-    System.out.println("🔁 Transitioned to " + newState.getClass().getSimpleName());
-    this.state = newState;
-  }
-
   public int getFailureThreshold() {
     return failureThreshold;
   }
@@ -58,5 +53,10 @@ public class CircuitBreaker {
 
   public String getState() {
     return state.getClass().getSimpleName();
+  }
+
+  public void setState(CircuitBreakerState newState) {
+    System.out.println("🔁 Transitioned to " + newState.getClass().getSimpleName());
+    this.state = newState;
   }
 }
