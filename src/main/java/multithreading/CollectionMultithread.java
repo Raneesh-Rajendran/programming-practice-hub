@@ -3,6 +3,7 @@ package main.java.multithreading;
 import main.java.models.Employee;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,7 +57,7 @@ public class CollectionMultithread {
 
   public static void readAndDelete(String threadName, Long employeeId) {
     for (Employee employee : list) {
-      if (employee.getId() == employeeId) {
+      if (Objects.equals(employee.getId(), employeeId)) {
         lock.lock();
         try {
           list.remove(employee);
