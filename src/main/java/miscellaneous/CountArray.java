@@ -1,6 +1,6 @@
 package main.java.miscellaneous;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class CountArray {
 
@@ -49,5 +49,43 @@ public class CountArray {
     }
 
     System.out.println(countArray[0][3]);
+  }
+
+  public static List<Integer> missingNumbers(List<Integer> arr, List<Integer> brr) {
+
+    Map<Integer, Integer> arrLookup = new HashMap<>();
+    Map<Integer, Integer> brrLookup = new HashMap<>();
+    Set<Integer> result = new TreeSet<>();
+
+    for (Integer element : arr) {
+      arrLookup.put(element, arrLookup.getOrDefault(element, 0) + 1);
+    }
+
+    for (Integer element : brr) {
+      brrLookup.put(element, brrLookup.getOrDefault(element, 0) + 1);
+    }
+
+    for (Integer key : brrLookup.keySet()) {
+      if (!Objects.equals(brrLookup.get(key), arrLookup.getOrDefault(key, 0))) {
+        result.add(key);
+      }
+    }
+
+    return new ArrayList<>(result);
+  }
+
+  public void test1() {
+    List<Integer> arr = Arrays.asList(203, 204, 205, 206, 207, 208, 203, 204, 205, 206);
+    List<Integer> brr =
+            Arrays.asList(203, 204, 204, 205, 206, 207, 205, 208, 203, 206, 205, 206, 204);
+    System.out.println("Test 1");
+    missingNumbers(arr, brr).forEach(System.out::println);
+  }
+
+  public void test2() {
+    List<Integer> arr = Arrays.asList(1, 1, 2, 2, 3, 4);
+    List<Integer> brr = Arrays.asList(1, 2, 3, 4);
+    System.out.println("Test 2");
+    missingNumbers(arr, brr).forEach(System.out::println);
   }
 }

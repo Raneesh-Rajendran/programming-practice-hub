@@ -1,9 +1,9 @@
 package main.java.workouts;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import main.java.models.Employee;
 
 public class LearnStreams {
@@ -66,28 +66,29 @@ public class LearnStreams {
             .filter(entry -> entry.getKey() == 2 || entry.getKey() == 1)
             .flatMap(data -> data.getValue().stream())
             .filter(data -> data.getId() > 2L && data.getId() < 6L)
-            .collect(toList());
+            .toList();
 
-    // employees.forEach(System.out::println);
+    employees.forEach(System.out::println);
 
     Integer ageTotal =
         employees.stream()
             .reduce(0, (partialResult, data) -> partialResult + data.getAge(), Integer::sum);
 
-    // System.out.println(ageTotal);
+    System.out.println(ageTotal);
 
     Comparator<Employee> nameSorter = (a, b) -> a.getName().compareToIgnoreCase(b.getName());
     list.sort(nameSorter);
     list.sort(
-        Comparator.comparing(Employee::getId, Comparator.reverseOrder())
+        Comparator.comparing(Employee::getAge, Comparator.reverseOrder())
             .thenComparing(Employee::getEmail, Comparator.reverseOrder()));
     list.sort(Comparator.comparing(Employee::getId).thenComparing(Employee::getName));
 
-    /*Map<Integer, List<Employee>> sortedMap = new LinkedHashMap<>();
-    map.entrySet()
-            .stream()
-            .sorted(Map.Entry.comparingByKey())
-            .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));*/
+    Map<Integer, List<Employee>> sortedMap = new LinkedHashMap<>();
+    map.entrySet().stream()
+        .sorted(Map.Entry.comparingByKey())
+        .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
+
+    sortedMap.entrySet().forEach(System.out::println);
 
     List<Integer> input = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
     Map<Boolean, List<Integer>> resultMap =
@@ -95,9 +96,8 @@ public class LearnStreams {
     System.out.println(resultMap);
 
     List<Integer> resultList =
-        list.stream().map(Employee::getAge).filter(age -> age % 2 == 1).collect(toList());
-
-    /*return list;*/
+        list.stream().map(Employee::getAge).filter(age -> age % 2 == 1).toList();
+    resultList.forEach(System.out::println);
 
     // Calling generic method with Integer argument
     genericDisplay(11);
@@ -107,6 +107,59 @@ public class LearnStreams {
 
     // Calling generic method with double argument
     genericDisplay(1.0);
+
+    List<Employee> mergedList = Stream.of(list, list1, list2).flatMap(Collection::stream).toList();
+
+    Map<Integer, Employee> employeeMapByAge =
+        mergedList.stream()
+            .collect(
+                Collectors.toMap(
+                    Employee::getAge, Function.identity(), (existing, replacement) -> existing));
+    employeeMapByAge.entrySet().forEach(System.out::println);
+
+    Map<Integer, Long> employeeCountByAge =
+        mergedList.stream()
+            .collect(
+                Collectors.groupingBy(Employee::getAge, LinkedHashMap::new, Collectors.counting()));
+    employeeCountByAge.entrySet().forEach(System.out::println);
+
+    Map<String, Long> employeeNameByManager =
+        mergedList.stream()
+            .sorted((a, b) -> a.getName().compareToIgnoreCase(b.getName()))
+            .collect(
+                Collectors.toMap(
+                    Employee::getName, Employee::getManagerId, (a, b) -> b, LinkedHashMap::new));
+    employeeNameByManager.entrySet().forEach(System.out::println);
+
+    Map<Long, Double> managerWiseAvgAge =
+        mergedList.stream()
+            .collect(
+                Collectors.groupingBy(
+                    Employee::getManagerId, Collectors.averagingInt(Employee::getAge)));
+    managerWiseAvgAge.entrySet().forEach(System.out::println);
+
+    managerWiseAvgAge.putIfAbsent(1283L, 101.0);
+    System.out.println(managerWiseAvgAge.computeIfAbsent(1284L, e -> 102.0));
+
+    managerWiseAvgAge.merge(1283L, 101.0, Double::max);
+    managerWiseAvgAge.entrySet().forEach(System.out::println);
+
+    String s1 = "Leetcode";
+
+    Map<Character, Long> characterCount =
+        s1.chars()
+            .mapToObj(c -> (char) c)
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+    characterCount.entrySet().forEach(System.out::println);
+
+    Map<Character, Long> charCount =
+        s1.chars()
+            .mapToObj(c -> (char) c)
+            .collect(Collectors.toMap(Function.identity(), c -> 1L, Long::sum, LinkedHashMap::new));
+
+    charCount.entrySet().forEach(System.out::println);
+
   }
 
   static <T> void genericDisplay(T element) {
